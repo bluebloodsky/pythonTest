@@ -10,11 +10,11 @@ class LasvitSpider(CrawlSpider):
     start_urls = ['http://lasvit.com/']
 
     rules = (
-        Rule(LinkExtractor(allow=r'\.jpg'), callback='parse_item', follow=True),
-        Rule(LinkExtractor(allow=r'\.png'), callback='parse_item', follow=True),
+        Rule(LinkExtractor(allow='.*'), callback='parse_item'),
     )
 
     def parse_item(self, response):
-        filename = response.url.split("/")[-2]
+        self.log('Hi, this is an item page! %s' % response.url)
+        filename = response.url.split("/")[-1]
         with open(filename, 'wb') as f:
             f.write(response.body)
